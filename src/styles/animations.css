@@ -211,6 +211,20 @@ svg.radar polygon:last-of-type {
 .panel {
   transition: box-shadow 0.25s ease;
 }
+.place,
+.chapter-h {
+  animation: fadeUp 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+}
+.enc-rate s {
+  transform-origin: left;
+  animation: grow 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.place-h .place-scene {
+  transition: transform 0.6s ease;
+}
+.place:hover .place-scene {
+  transform: scale(1.04);
+}
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
