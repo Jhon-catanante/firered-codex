@@ -1,0 +1,76 @@
+/* Aba Treino: naturezas e calculadora. */
+/* natures */
+.ng {
+  display: grid;
+  grid-template-columns: 90px repeat(5, 1fr);
+  gap: 4px;
+  font-size: 13px;
+}
+.ng div {
+  padding: 8px;
+  border-radius: 8px;
+  text-align: center;
+}
+.ng .h {
+  font-weight: 700;
+  color: var(--ink-2);
+  background: none;
+}
+.ng .n {
+  background: var(--soft);
+  font-weight: 600;
+}
+.ng .neutral {
+  opacity: 0.55;
+}
+@media (max-width: 560px) {
+  .ng {
+    grid-template-columns: 62px repeat(5, 1fr);
+    font-size: 11px;
+  }
+  .ng div {
+    padding: 6px 2px;
+  }
+}
+.calc {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.calc label {
+  font-size: 12.5px;
+  color: var(--ink-2);
+  font-weight: 600;
+  display: grid;
+  gap: 4px;
+}
+.calc input,
+.calc select {
+  height: 42px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--soft);
+  padding: 0 10px;
+  width: 100%;
+}
+.evgrid {
+  display: grid;
+  grid-template-columns: 70px 1fr 1fr 70px;
+  gap: 8px;
+  align-items: center;
+  font-size: 13.5px;
+}
+.evgrid input {
+  height: 36px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: var(--soft);
+  padding: 0 8px;
+  width: 100%;
+}
+.evgrid .out {
+  font-weight: 800;
+  text-align: right;
+  font-size: 16px;
+}

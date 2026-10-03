@@ -1,0 +1,6 @@
+dist
+node_modules
+src/data/*.json
+data-pipeline
+tests/fixtures
+package-lock.json

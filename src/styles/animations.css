@@ -1,0 +1,221 @@
+/* Animações. Tudo é desligado com prefers-reduced-motion. */
+/* ---------- motion ---------- */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes pop {
+  0% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+@keyframes grow {
+  from {
+    transform: scaleX(0);
+  }
+}
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+@keyframes shine {
+  from {
+    transform: translateX(-120%) skewX(-20deg);
+  }
+  to {
+    transform: translateX(220%) skewX(-20deg);
+  }
+}
+@keyframes radar {
+  from {
+    transform: scale(0.2);
+    opacity: 0;
+  }
+}
+@keyframes hue {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+main > section:not([hidden]) {
+  animation: fadeUp 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.card {
+  animation: fadeUp 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+  animation-delay: calc(var(--i, 0) * 22ms);
+}
+.card .art {
+  background-size: 160% 160%;
+  transition: background-position 0.5s ease;
+}
+.card:hover .art {
+  background-position: 100% 100%;
+}
+.card .emb {
+  transition: transform 0.35s cubic-bezier(0.3, 1.6, 0.5, 1);
+}
+.card:hover .emb {
+  transform: scale(1.14) rotate(-8deg);
+}
+.card .art::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 40%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+  transform: translateX(-120%) skewX(-20deg);
+  z-index: 1;
+  pointer-events: none;
+}
+.card:hover .art::before {
+  animation: shine 0.8s ease;
+}
+.card:active {
+  transform: scale(0.98);
+}
+.spark i {
+  transform-origin: bottom;
+  animation: growY 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation-delay: calc(var(--i, 0) * 22ms + 150ms);
+}
+@keyframes growY {
+  from {
+    transform: scaleY(0);
+  }
+}
+.hero {
+  background-size: 180% 180%;
+  animation: hue 10s ease-in-out infinite;
+}
+.hero-emb {
+  animation: bob 3.4s ease-in-out infinite;
+}
+.hero-emb svg {
+  animation: pop 0.5s cubic-bezier(0.3, 1.5, 0.5, 1) both 0.1s;
+}
+.hero h2 {
+  animation: fadeUp 0.45s both 0.05s;
+}
+.stat .bar span {
+  transform-origin: left;
+  animation: grow 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.stat:nth-child(2) .bar span {
+  animation-delay: 0.05s;
+}
+.stat:nth-child(3) .bar span {
+  animation-delay: 0.1s;
+}
+.stat:nth-child(4) .bar span {
+  animation-delay: 0.15s;
+}
+.stat:nth-child(5) .bar span {
+  animation-delay: 0.2s;
+}
+.stat:nth-child(6) .bar span {
+  animation-delay: 0.25s;
+}
+svg.radar polygon:last-of-type {
+  transform-origin: 100px 100px;
+  animation: radar 0.7s cubic-bezier(0.3, 1.4, 0.5, 1) both 0.15s;
+}
+.sheet-body > * {
+  animation: fadeUp 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+}
+.sheet-body > *:nth-child(2) {
+  animation-delay: 0.06s;
+}
+.sheet-body > *:nth-child(3) {
+  animation-delay: 0.12s;
+}
+.sheet-body > *:nth-child(4) {
+  animation-delay: 0.18s;
+}
+.sheet-body > *:nth-child(5) {
+  animation-delay: 0.24s;
+}
+.mv {
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+.mv:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px -10px var(--c);
+}
+.tab,
+.tchips button,
+.seg button,
+.sug,
+.evo button,
+.bnav button {
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    transform 0.15s ease;
+}
+.tchips button:active,
+.seg button:active,
+.sug:active,
+.tab:active {
+  transform: scale(0.95);
+}
+.tchips button[aria-pressed='true'] i {
+  animation: pop 0.35s ease;
+}
+.bnav button[aria-selected='true'] svg {
+  animation: pop 0.35s ease;
+}
+.trc,
+.lcard {
+  animation: fadeUp 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+}
+.trc {
+  transition: transform 0.2s ease;
+}
+.trc:hover {
+  transform: translateY(-3px);
+}
+.trc-h .emb {
+  animation: bob 4s ease-in-out infinite;
+}
+.rate .bar span,
+.lg .rate .bar span {
+  transform-origin: left;
+  animation: grow 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.panel {
+  transition: box-shadow 0.25s ease;
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

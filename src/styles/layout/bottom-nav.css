@@ -1,0 +1,101 @@
+/* Navegação inferior e ajustes de layout no celular. */
+/* bottom nav on phones (GO style) */
+.bnav {
+  display: none;
+}
+@media (max-width: 860px) {
+  .tabs {
+    display: none;
+  }
+  .top-in {
+    padding: 10px 14px;
+  }
+  .brand {
+    font-size: 17px;
+  }
+  .ver {
+    margin-left: auto;
+  }
+  .bnav {
+    display: flex;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 30;
+    background: var(--sheet);
+    border-top: 1px solid var(--line);
+    padding: 6px 2px calc(6px + env(safe-area-inset-bottom, 0px));
+    justify-content: space-around;
+    box-shadow: 0 -8px 24px -14px rgba(0, 0, 0, 0.35);
+  }
+  .bnav button {
+    border: 0;
+    background: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    font-size: 9.5px;
+    font-weight: 600;
+    color: var(--ink-2);
+    padding: 4px 0;
+    border-radius: 12px;
+    cursor: pointer;
+    flex: 1;
+    min-width: 0;
+  }
+  .bnav button svg {
+    width: 21px;
+    height: 21px;
+  }
+  .bnav button[aria-selected='true'] {
+    color: var(--ember);
+  }
+  main {
+    padding-bottom: 90px !important;
+    padding-left: 14px !important;
+    padding-right: 14px !important;
+  }
+  body .grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+  }
+  body .card .art {
+    height: 80px;
+  }
+  body .card .emb {
+    width: 50px;
+    height: 50px;
+  }
+  body .card .emb svg {
+    width: 28px;
+    height: 28px;
+  }
+  body .card .nm {
+    font-size: 15.5px;
+  }
+  body .card .meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  .themebtn {
+    width: 34px;
+    height: 34px;
+  }
+  body .controls .sel,
+  body .controls .chk {
+    flex: 1 1 140px;
+  }
+  body .sheet-body {
+    padding: 0 10px 20px;
+  }
+  body .panel {
+    padding: 16px;
+  }
+  body .stat {
+    grid-template-columns: 64px 32px 1fr 62px;
+    gap: 8px;
+  }
+}

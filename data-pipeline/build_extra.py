@@ -1,5 +1,13 @@
+"""Seleciona os treinadores relevantes e monta os dados curados (anime, dicas de lendários).
+
+Entrada: snapshot/data.json e .cache/trainers_raw.json (gerado por trainers.py).
+Saída: snapshot/extra.json.
+"""
 import json
-D=json.load(open('data.json')); T=json.load(open('trainers_raw.json'))
+from pathlib import Path
+
+HERE = Path(__file__).resolve().parent
+D=json.load(open(HERE / 'snapshot' / 'data.json')); T=json.load(open(HERE / '.cache' / 'trainers_raw.json'))
 byn={p['n']:int(i) for i,p in D['P'].items()}
 def party(k): return T[k]
 # player starter -> rival suffix
@@ -38,7 +46,7 @@ AN=[dict(n=n,era=e,p=[dict(p=byn[x],note=note) for x,note in lst]) for n,e,lst i
 # legendaries tips
 LT={144:'Seafoam Islands, no fundo da caverna. Precisa de Surf e Strength para mover as pedras e parar a correnteza.',
 145:'Power Plant, acessível pela Rota 10 com Surf. Ele fica no fundo da usina.',
-146:'Mt. Ember, na One Island (Ilhas Sevii). Só depois de entregar o Meteorite e liberar as ilhas no pós-jogo.',
+146:'Mt. Ember, na One Island (Ilhas Sevii). Dá para pegar já na primeira visita às ilhas, depois de Cinnabar. Precisa de Strength e Rock Smash para chegar ao topo.',
 150:'Cerulean Cave, depois de terminar a história das Ilhas Sevii e pegar a Pokédex Nacional. Nível 70, o mais difícil de capturar.',
 243:'Errante por Kanto depois da Pokédex Nacional, se você escolheu Squirtle. Foge no 1º turno: use Mean Look, Block ou Spider Web.',
 244:'Errante por Kanto depois da Pokédex Nacional, se você escolheu Bulbasaur. Foge no 1º turno: use Mean Look, Block ou Spider Web.',
@@ -46,5 +54,5 @@ LT={144:'Seafoam Islands, no fundo da caverna. Precisa de Surf e Strength para m
 249:'Navel Rock, liberada só pelo evento oficial Mystic Ticket.',250:'Navel Rock, liberada só pelo evento oficial Mystic Ticket.',
 386:'Birth Island, liberada só pelo evento oficial Aurora Ticket. Em FireRed vem na Forma Ataque, em LeafGreen na Forma Defesa.',
 151:'Não aparece em FireRed. Só por eventos oficiais antigos, recebido em outro jogo e trocado.'}
-json.dump(dict(G=G,AN=AN,LT=LT),open('extra.json','w'),ensure_ascii=False,separators=(',',':'))
+json.dump(dict(G=G,AN=AN,LT=LT),open(HERE / 'snapshot' / 'extra.json','w'),ensure_ascii=False,separators=(',',':'))
 print('ok',sum(len(g['items']) for g in G))

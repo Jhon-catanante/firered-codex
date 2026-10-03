@@ -1,0 +1,54 @@
+/* Aba Lendários. */
+.legrid {
+  grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr)) !important;
+}
+.leg-st {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 999px;
+  display: inline-block;
+}
+.leg-st.catch {
+  background: #dff4ea;
+  color: #17704f;
+}
+.leg-st.event {
+  background: #fff0d6;
+  color: #8a5a00;
+}
+.leg-st.trade {
+  background: #f2e0e3;
+  color: #9b2335;
+}
+.odds {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  margin-top: 10px;
+}
+.odds div {
+  background: var(--soft);
+  border-radius: 10px;
+  padding: 7px 8px;
+  font-size: 11.5px;
+  color: var(--ink-2);
+  line-height: 1.3;
+}
+.odds b {
+  display: block;
+  font-size: 16px;
+  color: var(--ink);
+}
+.lcard {
+  cursor: default;
+}
+.lcard .body p {
+  margin: 8px 0 0;
+  font-size: 13px;
+  color: var(--ink-2);
+}
+.lcard .loc {
+  font-size: 13px;
+  margin-top: 8px;
+}

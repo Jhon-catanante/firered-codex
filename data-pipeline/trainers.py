@@ -1,9 +1,29 @@
-import re, json
-D=json.load(open('data.json'))
+"""Extrai os times de treinadores do código descompilado de FireRed (pret/pokefirered).
+
+Entrada: snapshot/data.json e src/data/trainer_parties.h + trainers.h do pret (baixados para .cache).
+Saída: .cache/trainers_raw.json (todos os treinadores; build_extra.py escolhe os relevantes).
+"""
+import re, json, urllib.request
+from pathlib import Path
+
+HERE = Path(__file__).resolve().parent
+CACHE = HERE / ".cache" / "pret"
+PRET = "https://raw.githubusercontent.com/pret/pokefirered/master/src/data"
+
+
+def pret(name):
+    path = CACHE / name
+    if not path.exists():
+        CACHE.mkdir(parents=True, exist_ok=True)
+        urllib.request.urlretrieve(f"{PRET}/{name}", path)
+    return path.read_text()
+
+
+D=json.load(open(HERE / 'snapshot' / 'data.json'))
 norm=lambda s: re.sub(r'[^a-z0-9]','',s.lower().replace('♀','f').replace('♂','m'))
 sp={norm(p['n']):int(i) for i,p in D['P'].items()}
 mv={norm(m['n']):int(i) for i,m in D['M'].items()}
-th=open('trainers.h').read(); tp=open('trainer_parties.h').read()
+th=pret('trainers.h'); tp=pret('trainer_parties.h')
 parties={}
 for m in re.finditer(r'static const struct (\w+) (sParty_\w+)\[\] = \{(.*?)\n\};',tp,re.S):
     mons=[]
@@ -25,7 +45,6 @@ T={}
 for m in re.finditer(r'\[(TRAINER_\w+)\] = \{(.*?)\n    \},',th,re.S):
     b=m.group(2); pm=re.search(r'\.party = \w+\((sParty_\w+)\)',b)
     if pm and pm.group(1) in parties: T[m.group(1)]=parties[pm.group(1)]
-print(len(T)); 
-for k in ['TRAINER_LEADER_BROCK','TRAINER_LEADER_GIOVANNI','TRAINER_CHAMPION_FIRST_SQUIRTLE','TRAINER_RIVAL_OAKS_LAB_SQUIRTLE','TRAINER_CHAMPION_REMATCH_CHARMANDER','TRAINER_ELITE_FOUR_LANCE_2']:
-    print(k,[(D['P'][str(x['p'])]['n'],x['l'],[D['M'][str(y)]['n'] if isinstance(y,int) else y for y in x['m']],x['i']) for x in T[k]])
-json.dump(T,open('trainers_raw.json','w'))
+print('treinadores extraídos:', len(T))
+
+json.dump(T,open(HERE / '.cache' / 'trainers_raw.json','w'))

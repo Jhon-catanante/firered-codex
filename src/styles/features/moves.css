@@ -1,0 +1,22 @@
+/* Aba Golpes. */
+.effm {
+  display: none;
+  font-size: 12px;
+  color: var(--ink-2);
+  margin-top: 2px;
+  font-weight: 400;
+}
+@media (max-width: 700px) {
+  #mtable th:nth-child(9),
+  #mtable td:nth-child(9),
+  #mtable th:nth-child(8),
+  #mtable td:nth-child(8) {
+    display: none;
+  }
+  .effm {
+    display: block;
+  }
+  #mtable td:first-child {
+    min-width: 170px;
+  }
+}

@@ -1,0 +1,122 @@
+/* Banner animado da abertura. */
+/* ---------- banner ---------- */
+.banner {
+  position: relative;
+  border-radius: var(--r-xl);
+  overflow: hidden;
+  margin: 4px 0 20px;
+  min-height: 250px;
+  display: flex;
+  align-items: flex-end;
+  box-shadow: var(--shadow);
+  isolation: isolate;
+}
+.banner .scene {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+.banner-txt {
+  padding: 26px 26px 30px;
+  max-width: 640px;
+  color: #2a1408;
+}
+.banner .h1 {
+  margin: 4px 0 6px;
+  color: #2a1408;
+}
+.banner .lede {
+  color: #4a2a16;
+  margin: 0 0 14px;
+  font-weight: 500;
+}
+.kicker {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: rgba(255, 255, 255, 0.55);
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+.kpis {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.kpis span {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(6px);
+  border-radius: 14px;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 600;
+}
+.kpis b {
+  font-size: 18px;
+  font-weight: 800;
+  margin-right: 2px;
+  font-variant-numeric: tabular-nums;
+}
+.clouds {
+  animation: drift 60s linear infinite;
+}
+.clouds.c2 {
+  animation-duration: 90s;
+}
+.birds {
+  animation: fly 26s linear infinite;
+}
+.sun {
+  animation: glow 6s ease-in-out infinite;
+  transform-origin: 930px 150px;
+}
+.blade {
+  transform-box: fill-box;
+  transform-origin: bottom center;
+  animation: sway 3.2s ease-in-out infinite;
+}
+@keyframes drift {
+  from {
+    transform: translateX(-260px);
+  }
+  to {
+    transform: translateX(1260px);
+  }
+}
+@keyframes fly {
+  0% {
+    transform: translate(-80px, 90px);
+  }
+  50% {
+    transform: translate(600px, 40px);
+  }
+  100% {
+    transform: translate(1300px, 70px);
+  }
+}
+@keyframes glow {
+  50% {
+    transform: scale(1.06);
+  }
+}
+@keyframes sway {
+  0%,
+  100% {
+    transform: rotate(-5deg);
+  }
+  50% {
+    transform: rotate(6deg);
+  }
+}
+@media (max-width: 640px) {
+  .banner {
+    min-height: 300px;
+  }
+  .banner-txt {
+    padding: 20px 18px 26px;
+  }
+}
