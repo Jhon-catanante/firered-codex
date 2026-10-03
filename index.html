@@ -170,15 +170,39 @@
       <section id="routes" hidden>
         <h1 class="h1">Rotas e encontros</h1>
         <p class="lede">
-          Chance real de encontro em cada área, somando os slots de encontro do jogo. Grama, Surf,
-          pescaria e Rock Smash têm tabelas próprias. A versão escolhida no topo destaca as
-          exclusivas.
+          A jornada de FireRed na ordem da história, de Pallet Town ao pós-jogo. Cada lugar mostra a
+          chance real de encontro por método, somando os slots do jogo. Toque em um Pokémon para
+          abrir a ficha.
         </p>
-        <select class="sel area-pick" id="areapick" aria-label="Escolher área"></select>
-        <div class="area-layout">
-          <div class="panel area-list" id="arealist"></div>
-          <div class="panel" id="areaview"></div>
+        <div class="jr-tools">
+          <label class="search"
+            ><svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.2"
+              aria-hidden="true"
+            >
+              <circle cx="11" cy="11" r="7" />
+              <path d="m20 20-3.5-3.5" /></svg
+            ><input
+              id="jq"
+              type="search"
+              placeholder="Buscar rota ou Pokémon"
+              aria-label="Buscar rota ou Pokémon"
+          /></label>
+          <div
+            class="tchips jr-methods"
+            id="jmethods"
+            role="group"
+            aria-label="Métodos de encontro"
+          ></div>
         </div>
+        <nav class="jr-chapters" id="jchapters" aria-label="Etapas da jornada"></nav>
+        <p class="count" id="jcount"></p>
+        <div class="journey" id="journey"></div>
       </section>
 
       <!-- TRAINING -->
