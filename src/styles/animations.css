@@ -212,7 +212,9 @@ svg.radar polygon:last-of-type {
   transition: box-shadow 0.25s ease;
 }
 .place,
-.chapter-h {
+.chapter-h,
+.dt-chapter,
+.dt-battle {
   animation: fadeUp 0.45s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
 }
 .enc-rate s {

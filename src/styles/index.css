@@ -11,6 +11,7 @@
 @import './components/rate-bar.css';
 @import './features/banner.css';
 @import './features/routes.css';
+@import './features/detonado.css';
 @import './features/sheet.css';
 @import './features/moves.css';
 @import './features/type-chart.css';

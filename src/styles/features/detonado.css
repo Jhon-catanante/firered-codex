@@ -1,0 +1,563 @@
+/* Aba Detonado: mapa de Kanto e passo a passo por etapa. */
+
+.dt-map {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 280px;
+  gap: 18px;
+  align-items: start;
+  padding: 16px;
+  margin-bottom: 18px;
+}
+@media (max-width: 860px) {
+  .dt-map {
+    grid-template-columns: 1fr;
+    padding: 12px;
+  }
+}
+
+/* Mapa */
+.kmap {
+  width: 100%;
+  height: auto;
+  display: block;
+  font-family: inherit;
+}
+.km-sea {
+  fill: #bfe1f7;
+}
+.km-land {
+  fill: #e6efcf;
+  stroke: #c9d8a6;
+  stroke-width: 2;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .km-sea {
+    fill: #17304a;
+  }
+  :root:not([data-theme='light']) .km-land {
+    fill: #263425;
+    stroke: #34472f;
+  }
+}
+:root[data-theme='dark'] .km-sea {
+  fill: #17304a;
+}
+:root[data-theme='dark'] .km-land {
+  fill: #263425;
+  stroke: #34472f;
+}
+
+.km-route,
+.km-node,
+.km-sevii {
+  cursor: pointer;
+  outline: none;
+}
+.km-route .hit {
+  stroke: transparent;
+  stroke-width: 18;
+  fill: none;
+}
+.km-route .line {
+  stroke: var(--c);
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+  opacity: 0.85;
+  transition: stroke-width 0.2s ease;
+}
+.km-route.water .line {
+  stroke-dasharray: 2 9;
+  stroke-width: 5;
+}
+.km-route .tag {
+  fill: var(--sheet);
+  stroke: var(--c);
+  stroke-width: 2;
+}
+.km-route .tag-t {
+  font-size: 8px;
+  font-weight: 800;
+  text-anchor: middle;
+  fill: var(--ink);
+}
+.km-route:hover .line,
+.km-route:focus-visible .line,
+.km-route.on .line {
+  stroke-width: 9;
+  opacity: 1;
+}
+.km-route.on .tag {
+  fill: var(--c);
+}
+.km-route.on .tag-t {
+  fill: #fff;
+}
+
+.km-node .hit {
+  fill: transparent;
+}
+.km-node .pin {
+  fill: var(--sheet);
+  stroke: var(--c);
+  stroke-width: 3;
+  transition: transform 0.2s ease;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.km-node.city .pin {
+  fill: var(--c);
+  stroke: #fff;
+  stroke-width: 2.5;
+}
+.km-node.league .pin {
+  fill: #f2b33d;
+  stroke: #8a5a00;
+  stroke-width: 1.2;
+}
+.km-node .lbl {
+  font-size: 9.5px;
+  font-weight: 700;
+  fill: var(--ink);
+  paint-order: stroke;
+  stroke: var(--sheet);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+}
+.km-node.dungeon .lbl {
+  font-size: 8px;
+  font-weight: 600;
+  fill: var(--ink-2);
+}
+.km-node:hover .pin,
+.km-node:focus-visible .pin,
+.km-node.on .pin {
+  transform: scale(1.35);
+}
+.km-node.on .lbl {
+  fill: var(--ember);
+}
+
+.km-sevii rect {
+  fill: var(--sheet);
+  stroke: var(--line);
+}
+.km-sevii text {
+  font-size: 10px;
+  font-weight: 800;
+  text-anchor: middle;
+  fill: var(--ink);
+}
+.km-sevii text.sub {
+  font-size: 8px;
+  font-weight: 600;
+  fill: var(--ember);
+}
+.km-sevii:hover rect,
+.km-sevii.on rect {
+  stroke: var(--ember);
+  stroke-width: 2;
+}
+
+/* Painel de informações */
+.dt-map-info h3 {
+  margin: 4px 0 8px;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+.dt-map-info.show {
+  animation: fadeUp 0.3s ease backwards;
+}
+.km-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.km-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  background: var(--c);
+  border-radius: 999px;
+  padding: 3px 10px 3px 4px;
+}
+.km-chip:not(:has(i)) {
+  padding-left: 10px;
+}
+.km-chip i {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #fff;
+  color: var(--c);
+  display: grid;
+  place-items: center;
+}
+.km-chip i svg {
+  width: 11px;
+  height: 11px;
+}
+.km-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+.km-actions .sel {
+  height: 40px;
+  font-weight: 700;
+}
+.km-actions .sel.primary {
+  background: var(--ember);
+  color: #fff;
+  border-color: transparent;
+}
+
+/* Barra de progresso e inicial */
+.dt-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 20px;
+  align-items: center;
+  justify-content: space-between;
+}
+.dt-progress {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1 1 320px;
+  font-size: 13.5px;
+  color: var(--ink-2);
+}
+.dt-progress b {
+  color: var(--ink);
+}
+.dt-progress .sel {
+  height: 34px;
+  font-size: 13px;
+}
+.dt-bar {
+  flex: 1;
+  max-width: 320px;
+  height: 10px;
+  border-radius: 99px;
+  background: var(--sheet);
+  box-shadow: inset 0 0 0 1px var(--line);
+  overflow: hidden;
+}
+.dt-bar span {
+  display: block;
+  height: 100%;
+  border-radius: 99px;
+  background: linear-gradient(90deg, var(--flame), var(--ember));
+  transition: width 0.4s ease;
+}
+.dt-starter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+#dtnav button.complete i {
+  background: var(--good);
+}
+
+/* Etapa */
+.dt-chapter {
+  margin: 10px 0 34px;
+  scroll-margin-top: 130px;
+}
+.dt-head {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  margin-bottom: 14px;
+}
+.dt-node {
+  width: 44px;
+  height: 44px;
+  flex: none;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--c), color-mix(in srgb, var(--c) 55%, #1c2333));
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-size: 18px;
+  box-shadow: 0 10px 20px -12px var(--c);
+}
+.dt-node svg {
+  width: 22px;
+  height: 22px;
+}
+.dt-head small {
+  display: block;
+  color: var(--c);
+  font-weight: 700;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.dt-head h2 {
+  margin: 0;
+  font-size: clamp(22px, 3.2vw, 30px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+.dt-head p {
+  margin: 6px 0 0;
+  color: var(--ink-2);
+  max-width: 70ch;
+}
+.dt-count {
+  margin-left: auto;
+  font-weight: 800;
+  font-size: 13px;
+  background: var(--sheet);
+  border-radius: 999px;
+  padding: 5px 11px;
+  white-space: nowrap;
+  box-shadow: var(--shadow);
+}
+
+.dt-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+@media (max-width: 900px) {
+  .dt-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.dt-steps .h3,
+.dt-battles .h3 {
+  margin-top: 0;
+}
+
+/* Checklist */
+.dt-steps ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+.dt-steps li label {
+  display: grid;
+  grid-template-columns: 22px 26px 1fr;
+  gap: 8px;
+  align-items: start;
+  padding: 10px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.dt-steps li label:hover {
+  background: var(--soft);
+}
+.dt-steps input {
+  accent-color: var(--good);
+  width: 18px;
+  height: 18px;
+  margin: 2px 0 0;
+}
+.dt-steps .n {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--c);
+  background: color-mix(in srgb, var(--c) 14%, var(--sheet));
+}
+.dt-steps .t {
+  font-size: 14.5px;
+  line-height: 1.45;
+}
+.dt-steps .t em {
+  display: block;
+  margin-top: 6px;
+  font-style: normal;
+  font-size: 13px;
+  color: var(--ink-2);
+  padding: 7px 10px;
+  border-radius: 10px;
+  background: var(--soft);
+  border-left: 3px solid var(--c);
+}
+.dt-steps li.ok .t {
+  color: var(--ink-2);
+}
+.dt-steps li.ok .t > :first-child,
+.dt-steps li.ok .t {
+  text-decoration: line-through;
+  text-decoration-color: color-mix(in srgb, var(--ink-2) 60%, transparent);
+}
+.dt-steps li.ok .t em {
+  text-decoration: none;
+}
+.dt-steps li.ok .n {
+  background: var(--good);
+  color: #fff;
+}
+
+.dt-gains {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.dt-gains h4 {
+  width: 100%;
+  margin: 0 0 4px;
+  font-size: 11.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-2);
+}
+.dt-gain {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  font-weight: 600;
+  background: var(--soft);
+  border-radius: 999px;
+  padding: 4px 11px 4px 8px;
+}
+.dt-gain::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--ink-2);
+}
+.dt-gain.badge::before {
+  background: #f2b33d;
+}
+.dt-gain.hm::before {
+  background: #5487ee;
+}
+.dt-gain.pokemon::before {
+  background: var(--ember);
+}
+
+/* Batalhas */
+.dt-battles {
+  display: grid;
+  gap: 12px;
+}
+.dt-battle {
+  background: var(--sheet);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.dt-battle header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  color: #fff;
+  background: linear-gradient(120deg, var(--c), color-mix(in srgb, var(--c) 55%, #1c2333));
+}
+.dt-battle header small {
+  display: block;
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  opacity: 0.85;
+}
+.dt-battle header b {
+  font-size: 16px;
+  margin-right: 6px;
+}
+.dt-battle header .note {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 12px;
+}
+.dt-ic {
+  width: 34px;
+  height: 34px;
+  flex: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.22);
+  display: grid;
+  place-items: center;
+}
+.dt-ic svg {
+  width: 19px;
+  height: 19px;
+}
+.dt-ace {
+  margin-left: auto;
+  font-weight: 800;
+  font-size: 12px;
+  background: rgba(0, 0, 0, 0.22);
+  border-radius: 999px;
+  padding: 3px 9px;
+  white-space: nowrap;
+}
+.dt-team {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 12px 14px 6px;
+}
+.dt-mon {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 0;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 13px;
+  padding: 4px 10px 4px 4px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--c) 14%, var(--sheet));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c) 25%, transparent);
+}
+.dt-mon i {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--c);
+  color: #fff;
+  display: grid;
+  place-items: center;
+}
+.dt-mon i svg {
+  width: 13px;
+  height: 13px;
+}
+.dt-mon small {
+  color: var(--ink-2);
+  font-weight: 700;
+}
+.dt-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px 12px;
+}
+.dt-row > span:first-child {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ink-2);
+  margin-right: 2px;
+}
