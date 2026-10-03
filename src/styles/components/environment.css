@@ -77,43 +77,6 @@
   -webkit-backdrop-filter: blur(3px);
 }
 
-/* Na ficha: o céu do tipo cobre o topo e o cenário fica à direita, com degradê. */
-.hero:has(.env) {
-  isolation: isolate;
-}
-.hero-sky {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-}
-.hero .hero-env {
-  z-index: 0;
-  left: auto;
-  right: 0;
-  width: min(560px, 85%);
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 30%);
-  mask-image: linear-gradient(90deg, transparent, #000 30%);
-}
-.hero:has(.env)::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  background: linear-gradient(
-    90deg,
-    rgba(10, 14, 30, 0.6),
-    rgba(10, 14, 30, 0.22) 55%,
-    transparent
-  );
-  pointer-events: none;
-}
-.hero:has(.env)::after {
-  display: none;
-}
-.hero > :not(.env, .hero-sky) {
-  z-index: 2;
-}
-
 /* Efeitos */
 .env [class^='fx-'],
 .env [class*=' fx-'] {
@@ -230,36 +193,36 @@
   }
 }
 
-:is(.hero, .card:hover) .env .fx-rise {
+:is(.holo-view, .card:hover) .env .fx-rise {
   animation: fx-rise 3s ease-in infinite;
 }
-:is(.hero, .card:hover) .env .fx-fall {
+:is(.holo-view, .card:hover) .env .fx-fall {
   animation: fx-fall 3.5s linear infinite;
 }
-:is(.hero, .card:hover) .env .fx-drift {
+:is(.holo-view, .card:hover) .env .fx-drift {
   animation: fx-drift 6s ease-in-out infinite;
 }
-:is(.hero, .card:hover) .env .fx-wave {
+:is(.holo-view, .card:hover) .env .fx-wave {
   animation: fx-wave 2.4s linear infinite;
 }
-:is(.hero, .card:hover) .env .fx-twinkle {
+:is(.holo-view, .card:hover) .env .fx-twinkle {
   animation: fx-twinkle 2.2s ease-in-out infinite;
 }
-:is(.hero, .card:hover) .env .fx-flash {
+:is(.holo-view, .card:hover) .env .fx-flash {
   animation: fx-flash 3.2s linear infinite;
 }
-:is(.hero, .card:hover) .env .fx-pulse {
+:is(.holo-view, .card:hover) .env .fx-pulse {
   animation: fx-pulse 2.6s ease-in-out infinite;
 }
-:is(.hero, .card:hover) .env .fx-spin {
+:is(.holo-view, .card:hover) .env .fx-spin {
   animation: fx-spin 9s linear infinite;
 }
-:is(.hero, .card:hover) .env .fx-float {
+:is(.holo-view, .card:hover) .env .fx-float {
   animation: fx-float 2.8s ease-in-out infinite;
 }
-:is(.hero, .card:hover) .env .fx-fly {
+:is(.holo-view, .card:hover) .env .fx-fly {
   animation: fx-fly 6s ease-in-out infinite alternate;
 }
-:is(.hero, .card:hover) .env .fx-blink {
+:is(.holo-view, .card:hover) .env .fx-blink {
   animation: fx-blink 4s linear infinite;
 }

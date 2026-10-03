@@ -1,5 +1,6 @@
-/* Ficha do Pokémon (painel inferior). */
-/* sheet (detail) */
+/* Ficha do Pokémon: painel inferior com cara de tela de Pokédex. */
+
+/* Estrutura do painel */
 .scrim {
   position: fixed;
   inset: 0;
@@ -36,68 +37,454 @@
     transition: none;
   }
 }
-.hero {
+
+/*
+ * Ficha do Pokémon como tela de Pokédex holográfica.
+ * A ficha é sempre escura (é a "tela do aparelho"), independente do tema do site:
+ * os tokens são redefinidos aqui e todos os painéis internos se adaptam sozinhos.
+ * --accent e --accent2 vêm da cor dos tipos do Pokémon (definidos em sheet.ts).
+ */
+
+.scrim {
+  background: rgba(3, 6, 14, 0.72);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+.sheet {
+  --accent: #e3350d;
+  --accent2: var(--accent);
+  --bg: #070b16;
+  --sheet: rgba(255, 255, 255, 0.035);
+  --soft: rgba(255, 255, 255, 0.065);
+  --ink: #e9eefb;
+  --ink-2: #8e9bbd;
+  --line: rgba(255, 255, 255, 0.09);
+  --shadow: none;
+  color-scheme: dark;
+  color: var(--ink);
+  background:
+    radial-gradient(
+      900px 360px at 85% -8%,
+      color-mix(in srgb, var(--accent) 30%, transparent),
+      transparent 62%
+    ),
+    radial-gradient(
+      700px 300px at 0% 30%,
+      color-mix(in srgb, var(--accent2) 14%, transparent),
+      transparent 60%
+    ),
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px) 0 0 / 100% 22px,
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px) 0 0 / 22px 100%,
+    #070b16;
+  border-top: 1px solid color-mix(in srgb, var(--accent) 70%, #fff);
+  box-shadow:
+    0 -18px 60px -20px color-mix(in srgb, var(--accent) 60%, transparent),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+/* ---------- Topo: identificação + visor ---------- */
+.holo {
   position: relative;
-  overflow: hidden;
-  color: #fff;
-  padding: 26px 24px 70px;
-  background: linear-gradient(140deg, var(--c), var(--c2));
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+  gap: 20px;
+  align-items: center;
+  padding: 26px 22px 18px;
 }
-.hero .ghost {
+.holo .x {
   position: absolute;
-  right: -10px;
-  bottom: -34px;
-  font-size: clamp(110px, 22vw, 200px);
-  font-weight: 900;
-  line-height: 1;
-  opacity: 0.17;
-  letter-spacing: -0.05em;
-  pointer-events: none;
+  top: 14px;
+  right: 14px;
+  z-index: 5;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: rgba(7, 11, 22, 0.7);
+  color: var(--ink);
+  font-size: 22px;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    color 0.2s ease;
 }
-.hero::after {
+.holo .x:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.holo-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Chakra Petch', Rubik, sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  color: color-mix(in srgb, var(--accent) 55%, #fff);
+}
+.holo-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 10px 2px var(--accent);
+}
+.holo h2 {
+  margin: 6px 0 12px;
+  font-family: 'Chakra Petch', Rubik, sans-serif;
+  font-size: clamp(34px, 6vw, 56px);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  color: #fff;
+  text-shadow:
+    0 0 24px color-mix(in srgb, var(--accent) 65%, transparent),
+    0 0 2px rgba(255, 255, 255, 0.6);
+}
+.holo-types {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.holo-types .ty {
+  font-size: 12.5px;
+  padding: 4px 11px 4px 5px;
+  box-shadow: 0 0 14px -2px var(--c);
+}
+
+.holo-readouts {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 16px 0 0;
+}
+.holo-readouts div {
+  position: relative;
+  padding: 9px 11px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--line);
+  overflow: hidden;
+}
+.holo-readouts div::before {
   content: '';
   position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--accent);
+  box-shadow: 0 0 10px var(--accent);
+}
+.holo-readouts dt {
+  font-size: 11px;
+  color: var(--ink-2);
+  font-weight: 600;
+}
+.holo-readouts dd {
+  margin: 2px 0 0;
+  font-family: 'Chakra Petch', Rubik, sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hero-nav {
+  display: flex;
+  gap: 8px;
+  margin-top: 14px;
+  flex-wrap: wrap;
+}
+.hero-nav button,
+.hero-nav a {
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--ink);
+  border-radius: 10px;
+  padding: 7px 12px;
+  font-family: 'Chakra Petch', Rubik, sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  text-decoration: none;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+.hero-nav button:hover,
+.hero-nav a:hover {
+  border-color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+}
+
+/* Visor holográfico com o ambiente do tipo */
+.holo-view {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: 18px;
+  overflow: hidden;
+  isolation: isolate;
+  border: 1px solid color-mix(in srgb, var(--accent) 55%, transparent);
+  box-shadow:
+    0 0 0 4px rgba(255, 255, 255, 0.03),
+    0 0 40px -8px color-mix(in srgb, var(--accent) 70%, transparent),
+    inset 0 0 40px rgba(0, 0, 0, 0.35);
+}
+.holo-sky,
+.holo-view .holo-env {
+  position: absolute;
   inset: 0;
-  background: repeating-linear-gradient(
-    -45deg,
-    rgba(255, 255, 255, 0.06) 0 8px,
-    transparent 8px 18px
-  );
+  z-index: 0;
+}
+.holo-grid {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.07) 0 1px, transparent 1px 3px),
+    radial-gradient(circle at 50% 50%, transparent 55%, rgba(4, 8, 18, 0.55));
+  mix-blend-mode: overlay;
   pointer-events: none;
 }
-.hero-emb {
+.holo-scan {
   position: absolute;
-  right: 9%;
-  top: 24px;
-  width: 150px;
-  height: 150px;
+  left: 0;
+  right: 0;
+  height: 30%;
+  top: -30%;
+  z-index: 2;
+  background: linear-gradient(
+    transparent,
+    color-mix(in srgb, var(--accent) 30%, transparent) 70%,
+    color-mix(in srgb, var(--accent) 70%, #fff) 98%,
+    transparent
+  );
+  opacity: 0.5;
+  pointer-events: none;
+}
+.holo-reticle {
+  position: absolute;
+  z-index: 3;
+  width: 46%;
+  max-width: 190px;
+  aspect-ratio: 1;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.75);
+  stroke-width: 1.2;
+  filter: drop-shadow(0 0 6px var(--accent));
+}
+.holo-reticle circle:first-child {
+  stroke-dasharray: 3 6;
+}
+.holo-reticle .in {
+  stroke: color-mix(in srgb, var(--accent) 60%, #fff);
+  stroke-dasharray: 60 20 10 20;
+}
+.holo-view .hero-emb {
+  position: absolute;
+  z-index: 4;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  width: 26%;
+  max-width: 104px;
+  aspect-ratio: 1;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
-  box-shadow:
-    0 0 0 18px rgba(255, 255, 255, 0.09),
-    0 0 0 40px rgba(255, 255, 255, 0.05);
   display: grid;
   place-items: center;
   color: #fff;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--accent) 55%, transparent),
+    rgba(7, 11, 22, 0.55)
+  );
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  box-shadow: 0 0 30px -4px var(--accent);
 }
-.hero-emb svg {
-  width: 78px;
-  height: 78px;
-  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+.holo-view .hero-emb svg {
+  width: 52%;
+  height: 52%;
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.6));
 }
-@media (max-width: 640px) {
-  .hero-emb {
-    width: 92px;
-    height: 92px;
-    right: 16px;
-    top: 64px;
-    box-shadow: 0 0 0 10px rgba(255, 255, 255, 0.08);
+.holo-view .hud {
+  position: absolute;
+  z-index: 4;
+  width: 18px;
+  height: 18px;
+  border: 2px solid color-mix(in srgb, var(--accent) 60%, #fff);
+  filter: drop-shadow(0 0 4px var(--accent));
+}
+.hud.tl {
+  top: 10px;
+  left: 10px;
+  border-right: 0;
+  border-bottom: 0;
+  border-radius: 6px 0 0 0;
+}
+.hud.tr {
+  top: 10px;
+  right: 10px;
+  border-left: 0;
+  border-bottom: 0;
+  border-radius: 0 6px 0 0;
+}
+.hud.bl {
+  bottom: 10px;
+  left: 10px;
+  border-right: 0;
+  border-top: 0;
+  border-radius: 0 0 0 6px;
+}
+.hud.br {
+  bottom: 10px;
+  right: 10px;
+  border-left: 0;
+  border-top: 0;
+  border-radius: 0 0 6px 0;
+}
+.holo-tag,
+.holo-num {
+  position: absolute;
+  z-index: 4;
+  font-family: 'Chakra Petch', Rubik, sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: #fff;
+  text-shadow: 0 0 8px var(--accent);
+  background: rgba(7, 11, 22, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 8px;
+  padding: 3px 8px;
+}
+.holo-tag {
+  left: 34px;
+  bottom: 12px;
+}
+.holo-num {
+  right: 34px;
+  top: 12px;
+}
+
+@media (max-width: 720px) {
+  .holo {
+    grid-template-columns: 1fr;
+    padding: 16px 14px 10px;
+    gap: 14px;
   }
-  .hero-emb svg {
-    width: 46px;
-    height: 46px;
+  .holo-view {
+    order: -1;
+    margin-right: 48px;
+  }
+  .holo h2 {
+    margin-top: 2px;
   }
 }
+
+/* ---------- Painéis como módulos de vidro ---------- */
+.sheet-body {
+  margin-top: 0;
+  padding: 6px 16px 24px;
+  position: relative;
+  display: grid;
+  gap: 14px;
+}
+.sheet .panel {
+  position: relative;
+  border-radius: 16px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.02));
+  border: 1px solid var(--line);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+.sheet .panel::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 18px;
+  width: 46px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--accent);
+  box-shadow: 0 0 10px var(--accent);
+}
+.sheet .h3 {
+  font-family: 'Chakra Petch', Rubik, sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+.sheet .h3 .note {
+  font-family: Rubik, sans-serif;
+  letter-spacing: 0;
+}
+.sheet .kv > div {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--line);
+}
+.sheet .evo button {
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--ink);
+}
+.sheet .evo button[aria-current='true'] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  box-shadow: 0 0 16px -2px var(--accent);
+}
+.sheet .seg {
+  background: rgba(255, 255, 255, 0.05);
+}
+.sheet .seg button[aria-pressed='true'] {
+  background: color-mix(in srgb, var(--accent) 30%, #0d1426);
+  color: #fff;
+  box-shadow: 0 0 12px -4px var(--accent);
+}
+.sheet th {
+  background: #0c1222;
+}
+.sheet .plink {
+  text-decoration-color: rgba(255, 255, 255, 0.25);
+}
+.sheet .mv {
+  background: color-mix(in srgb, var(--c) 16%, rgba(255, 255, 255, 0.03));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--c) 35%, transparent);
+}
+.sheet .cat.physical {
+  background: #4a2416;
+  color: #ffb496;
+}
+.sheet .cat.special {
+  background: #1e2b4d;
+  color: #a9c1ff;
+}
+.sheet .cat.status {
+  background: #2e3344;
+  color: #c2c7d6;
+}
+.sheet .badge {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--ink-2);
+}
+.sheet .natrow .rk {
+  color: color-mix(in srgb, var(--accent) 55%, #fff);
+}
+.sheet .up {
+  color: #5fe0a6;
+}
+.sheet .down {
+  color: #ff7a7f;
+}
+
+/* ---------- Status base ---------- */
 .statwrap {
   display: grid;
   grid-template-columns: 200px 1fr;
@@ -121,64 +508,10 @@ svg.radar {
   height: auto;
   display: block;
 }
-.hero h2 {
-  margin: 2px 0 10px;
-  font-size: clamp(30px, 5vw, 44px);
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  line-height: 1.05;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
-}
-.hero .ty {
-  background: rgba(255, 255, 255, 0.95);
-  color: var(--c);
-  text-shadow: none;
-}
-.hero .x {
-  position: absolute;
-  top: 14px;
-  right: 14px;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: 0;
-  background: rgba(0, 0, 0, 0.22);
-  color: #fff;
-  font-size: 22px;
-  cursor: pointer;
-  z-index: 2;
-}
-.hero-nav {
-  display: flex;
-  gap: 8px;
-  margin-top: 16px;
-  flex-wrap: wrap;
-}
-.hero-nav button,
-.hero-nav a {
-  border: 0;
-  background: rgba(255, 255, 255, 0.2);
-  color: #fff;
-  border-radius: 999px;
-  padding: 7px 13px;
-  font-weight: 600;
-  font-size: 13px;
-  cursor: pointer;
-  text-decoration: none;
-}
-.hero-nav button:hover,
-.hero-nav a:hover {
-  background: rgba(255, 255, 255, 0.32);
-}
-.sheet-body {
-  margin-top: -46px;
-  padding: 0 16px 24px;
-  position: relative;
-  display: grid;
-  gap: 14px;
-}
-.sheet .panel {
-  border-radius: var(--r-lg);
+.sheet svg.radar polygon:last-of-type {
+  fill: color-mix(in srgb, var(--accent) 35%, transparent);
+  stroke: color-mix(in srgb, var(--accent) 70%, #fff);
+  filter: drop-shadow(0 0 6px var(--accent));
 }
 .stat {
   display: grid;
@@ -196,6 +529,10 @@ svg.radar {
   font-weight: 700;
   text-align: right;
 }
+.sheet .stat .v {
+  font-family: 'Chakra Petch', Rubik, sans-serif;
+  font-size: 15px;
+}
 .stat .bar {
   height: 10px;
   border-radius: 99px;
@@ -206,12 +543,32 @@ svg.radar {
   display: block;
   height: 100%;
   border-radius: 99px;
+  background: var(--bc);
+}
+/* Barras em segmentos de LED com brilho. */
+.sheet .stat .bar {
+  height: 12px;
+  border-radius: 3px;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.07) 0 6px,
+    transparent 6px 8px
+  );
+  overflow: visible;
+}
+.sheet .stat .bar span {
+  border-radius: 2px;
+  -webkit-mask: repeating-linear-gradient(90deg, #000 0 6px, transparent 6px 8px);
+  mask: repeating-linear-gradient(90deg, #000 0 6px, transparent 6px 8px);
+  filter: drop-shadow(0 0 5px var(--bc));
 }
 .stat .mm {
   font-size: 11.5px;
   color: var(--ink-2);
   text-align: right;
 }
+
+/* ---------- Demais blocos ---------- */
 .mu {
   display: grid;
   gap: 8px;
@@ -308,4 +665,97 @@ svg.radar {
   font-weight: 600;
   font-size: 13px;
   margin: 2px 4px 2px 0;
+}
+
+/* ---------- Abertura e movimento ---------- */
+@keyframes holo-boot {
+  0% {
+    opacity: 0;
+    filter: brightness(2.2) saturate(0);
+  }
+  12% {
+    opacity: 1;
+  }
+  18% {
+    opacity: 0.35;
+  }
+  26% {
+    opacity: 1;
+    filter: brightness(1.4) saturate(0.6);
+  }
+  100% {
+    opacity: 1;
+    filter: none;
+  }
+}
+@keyframes holo-scan {
+  from {
+    top: -30%;
+  }
+  to {
+    top: 100%;
+  }
+}
+@keyframes holo-spin {
+  to {
+    rotate: 360deg;
+  }
+}
+@keyframes holo-spin-rev {
+  to {
+    rotate: -360deg;
+  }
+}
+@keyframes holo-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.25;
+  }
+}
+@keyframes holo-float {
+  0%,
+  100% {
+    translate: -50% -50%;
+  }
+  50% {
+    translate: -50% calc(-50% - 5px);
+  }
+}
+.scrim.open .holo-view {
+  animation: holo-boot 0.9s ease-out both;
+}
+.holo-scan {
+  animation: holo-scan 3.2s linear infinite;
+}
+.holo-reticle circle:first-child {
+  transform-origin: 50px 50px;
+  animation: holo-spin 18s linear infinite;
+}
+.holo-reticle .in {
+  transform-origin: 50px 50px;
+  animation: holo-spin-rev 9s linear infinite;
+}
+.holo-view .hero-emb {
+  animation: holo-float 3.4s ease-in-out infinite;
+}
+.holo-dot {
+  animation: holo-blink 1.6s ease-in-out infinite;
+}
+.holo-id > * {
+  animation: fadeUp 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+}
+.holo-id > :nth-child(2) {
+  animation-delay: 0.06s;
+}
+.holo-id > :nth-child(3) {
+  animation-delay: 0.12s;
+}
+.holo-id > :nth-child(4) {
+  animation-delay: 0.18s;
+}
+.holo-id > :nth-child(5) {
+  animation-delay: 0.24s;
 }

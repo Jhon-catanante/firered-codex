@@ -3,6 +3,8 @@ import { store } from '@/app/store';
 import { MAX_DEX, getPokemon } from '@/data';
 import type { LearnMethod } from '@/domain/learnsets';
 import { recommend } from '@/domain/moveset';
+import { HABITAT_LABEL, TYPE_COLOR, TYPE_LABEL } from '@/domain/constants';
+import { baseStatTotal } from '@/domain/stats';
 import { byId, dataNum, delegate, esc, pad3 } from '@/ui/dom';
 import { typeEnvironment } from '@/ui/type-environment';
 import { typeIcon } from '@/ui/icons';
@@ -40,20 +42,36 @@ function render(id: number): void {
     ({ key, label }) =>
       `<button data-lt="${key}" aria-pressed="${learnTab === key}">${label} <span class="note">${learnCount(id, key)}</span></button>`,
   ).join('');
-  sheet().innerHTML = `
-  <div class="hero" style="${typeColorVars(p.types)}">
+  const type = p.types[0] ?? 'normal';
+  const el = sheet();
+  el.style.setProperty('--accent', TYPE_COLOR[type]);
+  el.style.setProperty('--accent2', TYPE_COLOR[p.types[1] ?? type]);
+  el.innerHTML = `
+  <div class="hero holo" style="${typeColorVars(p.types)}">
     <button class="x" data-close aria-label="Fechar">×</button>
-    <span class="hero-sky env-${p.types[0] ?? 'normal'}" aria-hidden="true"></span>${typeEnvironment(p.types[0] ?? 'normal', 'hero-env')}<span class="hero-emb" aria-hidden="true">${typeIcon(p.types[0] ?? 'normal')}</span>
-    <span class="ghost" aria-hidden="true">${pad3(id)}</span>
-    <div style="position:relative">
-      <div style="font-weight:700;opacity:.9">#${pad3(id)}${p.legendary ? ' · Lendário' : ''}</div>
+    <div class="holo-id">
+      <div class="holo-kicker"><span class="holo-dot" aria-hidden="true"></span>Registro Nº ${pad3(id)}${p.legendary ? ' · Lendário' : ''}</div>
       <h2 id="sheet-title">${esc(p.name)}</h2>
-      <div style="display:flex;gap:6px">${heroChips(p)}</div>
+      <div class="holo-types">${heroChips(p)}</div>
+      <dl class="holo-readouts">
+        <div><dt>Total</dt><dd>${baseStatTotal(p)}</dd></div>
+        <div><dt>Hábitat</dt><dd>${HABITAT_LABEL[p.habitat] ?? '—'}</dd></div>
+        <div><dt>Captura</dt><dd>${p.captureRate}</dd></div>
+      </dl>
       <div class="hero-nav">
-        ${id > 1 ? `<button data-goto="${id - 1}">← #${pad3(id - 1)}</button>` : ''}
-        ${id < MAX_DEX ? `<button data-goto="${id + 1}">#${pad3(id + 1)} →</button>` : ''}
+        ${id > 1 ? `<button data-goto="${id - 1}" aria-label="Anterior, número ${id - 1}">← ${pad3(id - 1)}</button>` : ''}
+        ${id < MAX_DEX ? `<button data-goto="${id + 1}" aria-label="Próximo, número ${id + 1}">${pad3(id + 1)} →</button>` : ''}
         <a href="https://pokemondb.net/pokedex/${externalSlug(p.name)}" target="_blank" rel="noopener">Ver sprite e ouvir o grito ↗</a>
       </div>
+    </div>
+    <div class="holo-view" aria-hidden="true">
+      <span class="holo-sky env-${type}"></span>${typeEnvironment(type, 'holo-env')}
+      <span class="holo-grid"></span><span class="holo-scan"></span>
+      <svg class="holo-reticle" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46"/><circle class="in" cx="50" cy="50" r="38"/><path d="M50 0v10M50 90v10M0 50h10M90 50h10"/></svg>
+      <span class="hero-emb">${typeIcon(type)}</span>
+      <i class="hud tl"></i><i class="hud tr"></i><i class="hud bl"></i><i class="hud br"></i>
+      <span class="holo-tag">${TYPE_LABEL[type]}${p.types[1] ? ` / ${TYPE_LABEL[p.types[1]]}` : ''}</span>
+      <span class="holo-num">${pad3(id)}</span>
     </div>
   </div>
   <div class="sheet-body">
