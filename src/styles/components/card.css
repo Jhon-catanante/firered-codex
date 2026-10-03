@@ -165,7 +165,7 @@
   background: #fff0d6;
   color: #8a5a00;
 }
-.badge.no {
+.badge.none {
   background: #f2e0e3;
   color: #9b2335;
 }
@@ -190,7 +190,7 @@
     background: #3d3015;
     color: #f3c86b;
   }
-  :root:not([data-theme='light']) .badge.no {
+  :root:not([data-theme='light']) .badge.none {
     background: #40202a;
     color: #f09aaa;
   }
@@ -227,7 +227,7 @@
   background: #3d3015;
   color: #f3c86b;
 }
-:root[data-theme='dark'] .badge.no {
+:root[data-theme='dark'] .badge.none {
   background: #40202a;
   color: #f09aaa;
 }

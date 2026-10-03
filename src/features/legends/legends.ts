@@ -11,7 +11,7 @@ import {
 } from '@/domain/legends';
 import { byId, dataNum, delegate, esc, pad3 } from '@/ui/dom';
 import { percent } from '@/ui/format';
-import { habitatScene } from '@/ui/habitat-scene';
+import { typeEnvironment } from '@/ui/type-environment';
 import { typeIcon } from '@/ui/icons';
 import { typeChips, typeColorVars } from '@/ui/type-chip';
 
@@ -49,7 +49,7 @@ function legendCard(id: number): string {
     )
     .join('');
   const tip = legendTip(id) ?? fallbackTip(id, status);
-  return `<div class="card lcard" style="${typeColorVars(p.types)}"><span class="art"><span class="no">#${pad3(id)}</span><span class="leg">Lendário</span>${habitatScene(p.habitat)}<span class="emb">${typeIcon(p.types[0] ?? 'normal')}</span></span><span class="body"><span class="nm"><button class="plink" data-p="${id}">${esc(p.name)}</button></span><span class="tys">${typeChips(p.types)} <span class="leg-st ${status}">${LEGEND_STATUS_LABEL[status]}</span></span>${where}<p>${esc(tip)}</p>${status === 'trade' ? '' : oddsBlock(p.captureRate)}</span></div>`;
+  return `<div class="card lcard" style="${typeColorVars(p.types)}"><span class="art"><span class="no">#${pad3(id)}</span><span class="leg">Lendário</span>${typeEnvironment(p.types[0] ?? 'normal')}<span class="emb">${typeIcon(p.types[0] ?? 'normal')}</span></span><span class="body"><span class="nm"><button class="plink" data-p="${id}">${esc(p.name)}</button></span><span class="tys">${typeChips(p.types)} <span class="leg-st ${status}">${LEGEND_STATUS_LABEL[status]}</span></span>${where}<p>${esc(tip)}</p>${status === 'trade' ? '' : oddsBlock(p.captureRate)}</span></div>`;
 }
 
 function render(): void {

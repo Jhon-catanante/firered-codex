@@ -4,7 +4,7 @@ import { MAX_DEX, getPokemon } from '@/data';
 import type { LearnMethod } from '@/domain/learnsets';
 import { recommend } from '@/domain/moveset';
 import { byId, dataNum, delegate, esc, pad3 } from '@/ui/dom';
-import { habitatScene } from '@/ui/habitat-scene';
+import { typeEnvironment } from '@/ui/type-environment';
 import { typeIcon } from '@/ui/icons';
 import { typeColorVars } from '@/ui/type-chip';
 import { LEARN_TABS, learnCount, learnTable } from './learn-table';
@@ -43,7 +43,7 @@ function render(id: number): void {
   sheet().innerHTML = `
   <div class="hero" style="${typeColorVars(p.types)}">
     <button class="x" data-close aria-label="Fechar">×</button>
-    ${habitatScene(p.habitat, 'hero-scene')}<span class="hero-emb" aria-hidden="true">${typeIcon(p.types[0] ?? 'normal')}</span>
+    <span class="hero-sky env-${p.types[0] ?? 'normal'}" aria-hidden="true"></span>${typeEnvironment(p.types[0] ?? 'normal', 'hero-env')}<span class="hero-emb" aria-hidden="true">${typeIcon(p.types[0] ?? 'normal')}</span>
     <span class="ghost" aria-hidden="true">${pad3(id)}</span>
     <div style="position:relative">
       <div style="font-weight:700;opacity:.9">#${pad3(id)}${p.legendary ? ' · Lendário' : ''}</div>
