@@ -1,0 +1,104 @@
+/* Painéis, grades de colunas, tabelas e links de Pokémon. */
+/* panels */
+.panel {
+  background: var(--sheet);
+  border-radius: var(--r-xl);
+  padding: 20px;
+  box-shadow: var(--shadow);
+}
+.cols {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+  gap: 16px;
+  align-items: start;
+}
+.cols > *,
+.sheet-body > *,
+.area-layout > * {
+  min-width: 0;
+}
+.tbl-wrap {
+  overflow-x: auto;
+  border-radius: var(--r-md);
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 14px;
+}
+th {
+  text-align: left;
+  font-size: 12px;
+  color: var(--ink-2);
+  font-weight: 600;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+  background: var(--sheet);
+  position: sticky;
+  top: 0;
+}
+th.sort {
+  cursor: pointer;
+  user-select: none;
+}
+th.sort:hover {
+  color: var(--ink);
+}
+th.on::after {
+  content: ' ▾';
+}
+th.on.asc::after {
+  content: ' ▴';
+}
+td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+tr.click {
+  cursor: pointer;
+}
+tr.click:hover td {
+  background: var(--soft);
+}
+td.r,
+th.r {
+  text-align: right;
+}
+.eff {
+  color: var(--ink-2);
+  font-size: 13px;
+  min-width: 220px;
+}
+.plink {
+  background: none;
+  border: 0;
+  padding: 0;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: var(--line);
+  text-underline-offset: 3px;
+}
+.plink:hover {
+  text-decoration-color: var(--ember);
+}
+.kv {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 10px;
+}
+.kv div {
+  background: var(--soft);
+  border-radius: var(--r-md);
+  padding: 10px 12px;
+}
+.kv small {
+  display: block;
+  color: var(--ink-2);
+  font-size: 12px;
+}
+.kv b {
+  font-size: 15px;
+}

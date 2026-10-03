@@ -1,0 +1,32 @@
+/* Barra de chance de encontro. */
+/* bar */
+.rate {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 120px;
+}
+.rate .bar {
+  flex: 1;
+  height: 8px;
+  background: var(--soft);
+  border-radius: 99px;
+  overflow: hidden;
+}
+.rate .bar span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--flame), var(--ember));
+  border-radius: 99px;
+}
+.lg .rate .bar span {
+  background: linear-gradient(90deg, #8ad46b, var(--leaf));
+}
+.method {
+  display: inline-block;
+  font-size: 11.5px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: var(--soft);
+}

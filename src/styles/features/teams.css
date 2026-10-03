@@ -1,0 +1,69 @@
+/* Aba Times. */
+/* teams */
+.team {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+}
+.slot {
+  background: var(--soft);
+  border-radius: var(--r-md);
+  padding: 10px;
+  min-height: 96px;
+  position: relative;
+}
+.slot b {
+  display: block;
+  margin-bottom: 6px;
+}
+.slot .rm {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  color: var(--ink-2);
+  font-size: 18px;
+  line-height: 1;
+}
+.slot small {
+  display: block;
+  color: var(--ink-2);
+  font-size: 11.5px;
+  margin-top: 6px;
+}
+.wk {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 6px;
+}
+.wk div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--soft);
+  border-radius: 10px;
+  padding: 6px 8px;
+  font-size: 12.5px;
+}
+.wk .alert {
+  background: #fbe1df;
+}
+.wk .ok {
+  background: #ddf3e6;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) .wk .alert {
+    background: #4a2224;
+  }
+  :root:not([data-theme='light']) .wk .ok {
+    background: #1a3b2b;
+  }
+}
+:root[data-theme='dark'] .wk .alert {
+  background: #4a2224;
+}
+:root[data-theme='dark'] .wk .ok {
+  background: #1a3b2b;
+}
