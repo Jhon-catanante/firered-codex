@@ -1,9 +1,10 @@
 import type { Starter, Version } from '@/types';
 import { load, save } from './storage';
 
-export type Tab = 'dex' | 'moves' | 'routes' | 'train' | 'teams' | 'legends' | 'trainers' | 'types';
-export const TABS: readonly Tab[] = [
+/** Ordem das abas; o tipo Tab é derivado daqui para as duas nunca divergirem. */
+export const TABS = [
   'dex',
+  'detonado',
   'moves',
   'routes',
   'train',
@@ -11,7 +12,8 @@ export const TABS: readonly Tab[] = [
   'legends',
   'trainers',
   'types',
-];
+] as const;
+export type Tab = (typeof TABS)[number];
 
 export interface AppState {
   version: Version;

@@ -4,7 +4,9 @@ const isTab = (v: string | undefined): v is Tab => !!v && (TABS as readonly stri
 
 function render(tab: Tab): void {
   document.querySelectorAll<HTMLElement>('[data-tab]').forEach((b) => {
-    b.setAttribute('aria-selected', String(b.dataset.tab === tab));
+    const on = b.dataset.tab === tab;
+    b.setAttribute('aria-selected', String(on));
+    if (on && b.closest('.bnav')) b.scrollIntoView({ block: 'nearest', inline: 'nearest' });
   });
   document.querySelectorAll<HTMLElement>('main > section').forEach((s) => {
     s.hidden = s.id !== tab;

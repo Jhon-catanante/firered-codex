@@ -26,6 +26,7 @@
         </div>
         <nav class="tabs" role="tablist" aria-label="Seções">
           <button class="tab" role="tab" data-tab="dex" aria-selected="true">Pokédex</button>
+          <button class="tab" role="tab" data-tab="detonado">Detonado</button>
           <button class="tab" role="tab" data-tab="moves">Ataques</button>
           <button class="tab" role="tab" data-tab="routes">Rotas</button>
           <button class="tab" role="tab" data-tab="train">Treino</button>
@@ -123,6 +124,32 @@
         <div class="tchips" id="tchips" role="group" aria-label="Filtrar por tipo"></div>
         <p class="count" id="dexcount"></p>
         <div class="grid" id="grid"></div>
+      </section>
+
+      <!-- DETONADO -->
+      <section id="detonado" hidden>
+        <h1 class="h1">Detonado</h1>
+        <p class="lede">
+          O jogo inteiro na ordem, de Pallet Town ao pós-jogo. Marque os objetivos conforme avança:
+          o progresso fica salvo neste aparelho. As batalhas usam os times reais do jogo.
+        </p>
+        <div class="dt-map panel">
+          <div class="dt-map-svg" id="kmap"></div>
+          <aside class="dt-map-info" id="kmapinfo" aria-live="polite"></aside>
+        </div>
+        <div class="dt-toolbar">
+          <div class="dt-progress" id="dtprogress"></div>
+          <div class="dt-starter">
+            <span class="note" style="font-weight: 600">Seu inicial:</span>
+            <div class="seg" id="dtstarter" role="group" aria-label="Seu inicial">
+              <button data-st="bulbasaur" aria-pressed="false">Bulbasaur</button>
+              <button data-st="charmander" aria-pressed="true">Charmander</button>
+              <button data-st="squirtle" aria-pressed="false">Squirtle</button>
+            </div>
+          </div>
+        </div>
+        <nav class="jr-chapters" id="dtnav" aria-label="Etapas do detonado"></nav>
+        <div id="dtlist"></div>
       </section>
 
       <!-- MOVES -->
@@ -421,6 +448,19 @@
           <circle cx="12" cy="10" r="3" />
           <path d="M8 17h8" /></svg
         >Pokédex
+      </button>
+      <button role="tab" data-tab="detonado">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linejoin="round"
+        >
+          <path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2z" />
+          <path d="M9 4v14M15 6v14" />
+        </svg>
+        Detonado
       </button>
       <button role="tab" data-tab="moves">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
