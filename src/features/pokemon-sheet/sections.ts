@@ -30,7 +30,7 @@ export function statsPanel(p: Pokemon): string {
   const bars = STAT_KEYS.map((k) => {
     const v = p.baseStats[k];
     const [min, max] = statRangeAt100(k, v);
-    return `<div class="stat"><span class="k">${STAT_LABEL[k]}</span><span class="v num">${v}</span><span class="bar"><span style="width:${Math.min(100, (v / 255) * 160)}%;background:${statColor(v)}"></span></span><span class="mm num">${min}–${max}</span></div>`;
+    return `<div class="stat"><span class="k">${STAT_LABEL[k]}</span><span class="v num">${v}</span><span class="bar"><span style="width:${Math.min(100, (v / 255) * 160)}%;--bc:${statColor(v)}"></span></span><span class="mm num">${min}–${max}</span></div>`;
   }).join('');
   return `<div class="panel statpanel"><h3 class="h3" style="margin-top:0">Status base <span class="note" style="font-weight:500">· total ${baseStatTotal(p)}</span></h3><div class="statwrap">${statRadar(p, color)}<div>${bars}</div></div><p class="note" style="margin:8px 0 0">Faixa à direita: mínimo e máximo possível no nível 100.</p></div>`;
 }

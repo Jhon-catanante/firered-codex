@@ -107,19 +107,6 @@ main > section:not([hidden]) {
     transform: scaleY(0);
   }
 }
-.hero {
-  background-size: 180% 180%;
-  animation: hue 10s ease-in-out infinite;
-}
-.hero-emb {
-  animation: bob 3.4s ease-in-out infinite;
-}
-.hero-emb svg {
-  animation: pop 0.5s cubic-bezier(0.3, 1.5, 0.5, 1) both 0.1s;
-}
-.hero h2 {
-  animation: fadeUp 0.45s both 0.05s;
-}
 .stat .bar span {
   transform-origin: left;
   animation: grow 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) both;
