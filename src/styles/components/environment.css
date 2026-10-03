@@ -1,0 +1,265 @@
+/* Ambientes por tipo: o céu é o fundo do SVG; os elementos fx-* animam só na ficha e no hover. */
+
+.env {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.env-normal {
+  background: linear-gradient(#8fd3ff, #dff3ff 70%);
+}
+.env-fire {
+  background: linear-gradient(#3a1410, #a3361a 55%, #ff8a3d);
+}
+.env-water {
+  background: linear-gradient(#7cc4ff, #c6e7ff 52%);
+}
+.env-electric {
+  background: linear-gradient(#2b2e44, #5a5f86 60%, #8a8fb5);
+}
+.env-grass {
+  background: linear-gradient(#b7e8a0, #6dbf5a 70%);
+}
+.env-ice {
+  background: linear-gradient(#bfe6ff, #f2fbff 70%);
+}
+.env-fighting {
+  background: linear-gradient(#ff7a45, #ffc58a 60%);
+}
+.env-poison {
+  background: linear-gradient(#2a1a38, #6e3d8a 70%);
+}
+.env-ground {
+  background: linear-gradient(#f6c27a, #ffe2b0 60%);
+}
+.env-flying {
+  background: linear-gradient(#5aa8ff, #bfe0ff 70%);
+}
+.env-psychic {
+  background: linear-gradient(#2a1240, #8a3a9a 65%, #f07ac0);
+}
+.env-bug {
+  background: linear-gradient(#1f3d18, #4f8a2e 70%);
+}
+.env-rock {
+  background: linear-gradient(#d8c9a3, #efe4c8 60%);
+}
+.env-ghost {
+  background: linear-gradient(#120e24, #3a2f62 70%);
+}
+.env-dragon {
+  background: linear-gradient(#120c3a, #3a2a8a 60%, #6a50d0);
+}
+.env-dark {
+  background: linear-gradient(#0c0a12, #2a2238 70%);
+}
+.env-steel {
+  background: linear-gradient(#9aa6c0, #d6dcea 70%);
+}
+
+/* Na Pokédex e nos lendários o ambiente é a "foto" do card. */
+.card .art .env {
+  z-index: 0;
+  transition: transform 0.6s ease;
+}
+.card:hover .art .env {
+  transform: scale(1.05);
+}
+.card .art:has(.env)::after {
+  background: linear-gradient(transparent 55%, rgba(0, 0, 0, 0.18));
+}
+.card .art .emb {
+  background: rgba(255, 255, 255, 0.24);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+}
+
+/* Na ficha: o céu do tipo cobre o topo e o cenário fica à direita, com degradê. */
+.hero:has(.env) {
+  isolation: isolate;
+}
+.hero-sky {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.hero .hero-env {
+  z-index: 0;
+  left: auto;
+  right: 0;
+  width: min(560px, 85%);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 30%);
+  mask-image: linear-gradient(90deg, transparent, #000 30%);
+}
+.hero:has(.env)::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    90deg,
+    rgba(10, 14, 30, 0.6),
+    rgba(10, 14, 30, 0.22) 55%,
+    transparent
+  );
+  pointer-events: none;
+}
+.hero:has(.env)::after {
+  display: none;
+}
+.hero > :not(.env, .hero-sky) {
+  z-index: 2;
+}
+
+/* Efeitos */
+.env [class^='fx-'],
+.env [class*=' fx-'] {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+@keyframes fx-rise {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-14px);
+    opacity: 0;
+  }
+}
+@keyframes fx-fall {
+  from {
+    transform: translateY(-8px);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  to {
+    transform: translateY(18px);
+    opacity: 0;
+  }
+}
+@keyframes fx-drift {
+  0%,
+  100% {
+    transform: translateX(-4px);
+  }
+  50% {
+    transform: translateX(6px);
+  }
+}
+@keyframes fx-wave {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-20px);
+  }
+}
+@keyframes fx-twinkle {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.2;
+  }
+}
+@keyframes fx-flash {
+  0%,
+  82%,
+  100% {
+    opacity: 0.25;
+  }
+  85%,
+  92% {
+    opacity: 1;
+  }
+  88% {
+    opacity: 0.4;
+  }
+}
+@keyframes fx-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.12);
+    opacity: 1;
+  }
+}
+@keyframes fx-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes fx-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+@keyframes fx-fly {
+  from {
+    transform: translateX(-30px);
+  }
+  to {
+    transform: translateX(40px);
+  }
+}
+@keyframes fx-blink {
+  0%,
+  90%,
+  100% {
+    opacity: 1;
+  }
+  94% {
+    opacity: 0;
+  }
+}
+
+:is(.hero, .card:hover) .env .fx-rise {
+  animation: fx-rise 3s ease-in infinite;
+}
+:is(.hero, .card:hover) .env .fx-fall {
+  animation: fx-fall 3.5s linear infinite;
+}
+:is(.hero, .card:hover) .env .fx-drift {
+  animation: fx-drift 6s ease-in-out infinite;
+}
+:is(.hero, .card:hover) .env .fx-wave {
+  animation: fx-wave 2.4s linear infinite;
+}
+:is(.hero, .card:hover) .env .fx-twinkle {
+  animation: fx-twinkle 2.2s ease-in-out infinite;
+}
+:is(.hero, .card:hover) .env .fx-flash {
+  animation: fx-flash 3.2s linear infinite;
+}
+:is(.hero, .card:hover) .env .fx-pulse {
+  animation: fx-pulse 2.6s ease-in-out infinite;
+}
+:is(.hero, .card:hover) .env .fx-spin {
+  animation: fx-spin 9s linear infinite;
+}
+:is(.hero, .card:hover) .env .fx-float {
+  animation: fx-float 2.8s ease-in-out infinite;
+}
+:is(.hero, .card:hover) .env .fx-fly {
+  animation: fx-fly 6s ease-in-out infinite alternate;
+}
+:is(.hero, .card:hover) .env .fx-blink {
+  animation: fx-blink 4s linear infinite;
+}

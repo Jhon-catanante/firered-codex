@@ -31,7 +31,7 @@ export const obtainableAncestor = (pokemonId: number, version: Version): number 
 
 export const AVAILABILITY_LABEL: Record<
   Availability,
-  { tone: 'wild' | 'evo' | 'no'; text: string }
+  { tone: 'wild' | 'evo' | 'none'; text: string }
 > = {
   wild: { tone: 'wild', text: 'Selvagem' },
   gift: { tone: 'wild', text: 'Presente' },
@@ -39,5 +39,5 @@ export const AVAILABILITY_LABEL: Record<
   static: { tone: 'wild', text: 'Encontro único' },
   evo: { tone: 'evo', text: 'Por evolução' },
   trade: { tone: 'evo', text: 'Evolui por troca' },
-  none: { tone: 'no', text: 'Só por troca' },
+  none: { tone: 'none', text: 'Só por troca' },
 };
